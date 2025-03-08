@@ -9,7 +9,7 @@ class AuthService {
 
   static async logout() {
     removeToken();
-    window.location.href = '/';
+    window.location.href = '/login';
   }
 }
 

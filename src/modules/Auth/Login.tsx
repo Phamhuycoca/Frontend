@@ -1,20 +1,22 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import useAuth from './hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 type FieldType = {
   username: string;
   password: string;
 };
 
-const App: React.FC = () => {
+const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const { login, isAuthenticated, logout } = useAuth(); // ✅ Gọi `useAuth()` để lấy `login`
-
   const onFinish = async (values: FieldType) => {
     console.log('Success:', values);
     try {
       await login(values.username, values.password);
       console.log('Đăng nhập thành công!');
+      navigate('/users');
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
     }
@@ -53,4 +55,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default LoginPage;
