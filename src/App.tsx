@@ -1,71 +1,56 @@
-import React, { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from './stores/store';
-import axios from 'axios';
-import { setPaginationData } from './reducers/User.slice';
-function App() {
-  const users = useSelector((state: RootState) => state.users.data);
-  console.log(useSelector((state: RootState) => state.users));
+import React from 'react';
+import { Button, Form, Input } from 'antd';
+import useAuth from './hooks/useAuth';
 
-  const dispatch = useDispatch();
-  const fetchData = useCallback(() => {
-    axios
-      .get('https://localhost:5000/api/User/List')
-      .then((res) => {
-        console.log(res.data);
-        dispatch(setPaginationData(res.data));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const deleteUser = (id: number) => {
-    axios
-      .delete(`https://localhost:5000/api/User/${id}`)
-      .then((res) => {
-        alert(res.data.message);
-        fetchData();
-      })
-      .catch((error) => {
-        alert(error.response.data.errors);
-      });
+type FieldType = {
+  username: string;
+  password: string;
+};
+
+const App: React.FC = () => {
+  const { login, isAuthenticated, logout } = useAuth(); // ✅ Gọi `useAuth()` để lấy `login`
+
+  const onFinish = async (values: FieldType) => {
+    console.log('Success:', values);
+    try {
+      await login(values.username, values.password);
+      console.log('Đăng nhập thành công!');
+    } catch (error) {
+      console.error('Đăng nhập thất bại:', error);
+    }
   };
+
   return (
-    <div className="container">
-      <h2>CRUD</h2>
-      <button className="btn btn-success my-2">Create +</button>
-      <table className="table">
-        <thead>
-          <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Password</td>
-            <td>Role</td>
-            <td>Action</td>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.username}</td>
-              <td>{user.password}</td>
-              <td>{user.role}</td>
-              <td>
-                <button className="btn btn-warning">Edit</button>
-                <button className="btn btn-danger" onClick={() => deleteUser(user.id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <h1>{isAuthenticated ? 'Đã đăng nhập' : 'Chưa đăng nhập'}</h1>
+      <Form name="basic" onFinish={onFinish} autoComplete="off">
+        <Form.Item<FieldType>
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Login
+          </Button>
+        </Form.Item>
+      </Form>
+      <Button type="primary" htmlType="submit" onClick={logout}>
+        Logout
+      </Button>
+    </>
   );
-}
+};
 
 export default App;

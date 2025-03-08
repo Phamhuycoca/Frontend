@@ -10,3 +10,7 @@ export interface ResponseAuth {
   accaccess_token: string;
   refresh_token: string;
 }
+export interface ApiResponse<T> {
+  message: string;
+  data: T;
+}
