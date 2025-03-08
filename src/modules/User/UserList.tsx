@@ -1,5 +1,5 @@
 import React from 'react';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../services/context/useAuth';
 
 const UserList: React.FC = () => {
   const { isAuthenticated } = useAuth();

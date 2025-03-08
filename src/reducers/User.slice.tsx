@@ -21,24 +21,6 @@ const UserSlice = createSlice({
   name: 'User',
   initialState: initialState,
   reducers: {
-    // setData: (state, action: PayloadAction<User[]>) => {
-    //   state.data = action.payload;
-    // },
-    // setPage: (state, action: PayloadAction<number>) => {
-    //   state.page = action.payload;
-    // },
-    // setPageSize: (state, action: PayloadAction<number>) => {
-    //   state.page_size = action.payload;
-    // },
-    // setTotal: (state, action: PayloadAction<number>) => {
-    //   state.total = action.payload;
-    // },
-    // setFilter: (state, action: PayloadAction<string>) => {
-    //   state.filter = action.payload;
-    // },
-    // setSearch: (state, action: PayloadAction<string>) => {
-    //   state.search = action.payload;
-    // },
     setPaginationData: (
       state,
       action: PayloadAction<{ data: User[]; total: number; page: number; page_size: number }>,

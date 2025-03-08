@@ -1,4 +1,4 @@
-import BaseService from '../../../api/BaseService';
+import BaseService from '../../../services/api/BaseService';
 
 interface User {
   username: string;

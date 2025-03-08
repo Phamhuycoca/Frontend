@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../services/hooks/useAuth';
 
 type FieldType = {
   username: string;
@@ -10,7 +10,7 @@ type FieldType = {
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { login, isAuthenticated, logout } = useAuth(); // ✅ Gọi `useAuth()` để lấy `login`
+  const { login, isAuthenticated, logout } = useAuth();
   const onFinish = async (values: FieldType) => {
     console.log('Success:', values);
     try {

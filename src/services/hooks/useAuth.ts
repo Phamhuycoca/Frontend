@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getToken, removeToken, setRefreshToken, setToken } from '../utils/storage';
-import AuthService from '../services/AuthService';
+import { getToken, removeToken, setRefreshToken, setToken } from '../../utils/storage';
+import AuthService from '../AuthService';
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);

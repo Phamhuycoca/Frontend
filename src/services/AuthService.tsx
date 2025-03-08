@@ -1,5 +1,5 @@
-import apiClient from '../api/apiClient';
 import { removeToken } from '../utils/storage';
+import apiClient from './api/apiClient';
 
 class AuthService {
   static async login(username: string, password: string) {
