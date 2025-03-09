@@ -4,7 +4,7 @@ import apiClient from './api/apiClient';
 class AuthService {
   static async login(username: string, password: string) {
     const response = await apiClient.post('/auth/login', { username, password });
-    return response.data;
+    return response;
   }
 
   static async logout() {

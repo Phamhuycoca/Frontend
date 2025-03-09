@@ -2,21 +2,24 @@ import React from 'react';
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../services/hooks/useAuth';
-
 type FieldType = {
   username: string;
   password: string;
 };
 
 const LoginPage: React.FC = () => {
+  const BASE_URL = import.meta.env.REACT_APP_BASE_URL;
+  console.log(BASE_URL);
+
   const navigate = useNavigate();
   const { login, isAuthenticated, logout } = useAuth();
   const onFinish = async (values: FieldType) => {
     console.log('Success:', values);
     try {
-      await login(values.username, values.password);
-      console.log('Đăng nhập thành công!');
-      navigate('/users');
+      await login(values.username, values.password).then((res) => {
+        console.log(res?.data.success);
+        navigate('/users');
+      });
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
     }

@@ -1,4 +1,4 @@
-import { ApiResponse } from '../common/interfaces';
+import { ApiResponse, ResponseData } from '../../common/interfaces';
 import apiClient from './apiClient';
 
 class BaseService<T> {
@@ -28,9 +28,9 @@ class BaseService<T> {
     params?: Record<string, any>,
     includeAuth: boolean = false,
     customHeaders?: Record<string, string>,
-  ): Promise<T[]> {
+  ): Promise<ResponseData<T[]>> {
     try {
-      const response = await apiClient.get<T[]>(this.endpoint, {
+      const response = await apiClient.get<ResponseData<T[]>>(this.endpoint, {
         params,
         headers: this.getHeaders(includeAuth, customHeaders),
       });
@@ -53,15 +53,28 @@ class BaseService<T> {
     }
   }
 
-  async create(
-    data: Partial<T>,
-    includeAuth: boolean = false,
-    customHeaders?: Record<string, string>,
-  ): Promise<ApiResponse<T>> {
+  // async create(
+  //   data: Partial<T>,
+  //   includeAuth: boolean = false,
+  //   customHeaders?: Record<string, string>,
+  // ): Promise<ApiResponse<T>> {
+  //   try {
+  //     console.log('dataaaaa', data);
+
+  //     const response = await apiClient.post<ApiResponse<T>>(this.endpoint, data, {
+  //       headers: this.getHeaders(includeAuth, customHeaders),
+  //     });
+  //     return response.data; // ✅ Lấy `data` từ response
+  //   } catch (error) {
+  //     console.error(`Lỗi khi tạo mới tại ${this.endpoint}:`, error);
+  //     throw error;
+  //   }
+  // }
+  async create(data: Partial<T>): Promise<ApiResponse<T>> {
     try {
-      const response = await apiClient.post<ApiResponse<T>>(this.endpoint, data, {
-        headers: this.getHeaders(includeAuth, customHeaders),
-      });
+      console.log('dataaaaa', data);
+
+      const response = await apiClient.post<ApiResponse<T>>(this.endpoint, { data });
       return response.data; // ✅ Lấy `data` từ response
     } catch (error) {
       console.error(`Lỗi khi tạo mới tại ${this.endpoint}:`, error);
@@ -74,9 +87,9 @@ class BaseService<T> {
     data: Partial<T>,
     includeAuth: boolean = false,
     customHeaders?: Record<string, string>,
-  ): Promise<T> {
+  ): Promise<ApiResponse<T>> {
     try {
-      const response = await apiClient.put<T>(`${this.endpoint}/${id}`, data, {
+      const response = await apiClient.put<ApiResponse<T>>(`${this.endpoint}/${id}`, data, {
         headers: this.getHeaders(includeAuth, customHeaders),
       });
       return response.data;

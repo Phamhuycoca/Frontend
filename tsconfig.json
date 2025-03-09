@@ -4,6 +4,7 @@
   "compilerOptions": {
     "strict": false,
     "jsx": "react-jsx",
-    "target": "ESNext"
+    "target": "ESNext",
+    "types": ["node"]
   }
 }

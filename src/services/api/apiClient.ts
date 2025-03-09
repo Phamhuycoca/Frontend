@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { getToken, setToken, removeToken } from '../utils/storage';
+import { getToken, removeToken, setToken } from '../../utils/storage';
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: 'https://localhost:5000/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 10000,
 });
 
@@ -26,7 +26,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const refreshResponse = await axios.post('https://api.example.com/auth/refresh', {
+        const refreshResponse = await axios.post('https://localhost:5000/api/Auth/refresh_token', {
           refresh_token: localStorage.getItem('refresh_token'),
         });
         setToken(refreshResponse.data.access_token);

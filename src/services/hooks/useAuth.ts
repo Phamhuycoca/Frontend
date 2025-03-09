@@ -17,6 +17,7 @@ const useAuth = () => {
       setIsAuthenticated(true);
       setToken(response.data.access_token);
       setRefreshToken(response.data.refresh_token);
+      return response;
     } catch (error) {
       console.error('Login failed', error);
     }

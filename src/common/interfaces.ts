@@ -13,6 +13,8 @@ export interface ResponseAuth {
 export interface ApiResponse<T> {
   message: string;
   data: T;
+  statusCode: number;
+  success: boolean;
 }
 export interface RouteConfig {
   path: string; // Đường dẫn ("/", "/login", "/dashboard")
