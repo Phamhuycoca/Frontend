@@ -7,6 +7,8 @@ import { router } from './routers'
 import { Provider } from 'react-redux'
 import { persistor, store } from './stores/store'
 import { PersistGate } from 'redux-persist/integration/react';
+import ConfirmModal from './components/ConfirmModal/ConfirmModal'
+import { LoadingScreen } from './components/Loading/LoadingScreen'
 const px2rem = px2remTransformer({
   rootValue: 16,
 })
@@ -27,7 +29,8 @@ createRoot(document.getElementById('root')!).render(
         <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
             <RouterProvider router={router} />
-
+<ConfirmModal />
+<LoadingScreen/>
     </PersistGate>
     </Provider>
       </ConfigProvider>
