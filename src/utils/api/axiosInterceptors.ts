@@ -3,8 +3,8 @@ import axios from 'axios';
 import axiosInstance from './axiosInstance';
 import { Subject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-// import { store } from '../../stores/store';
-// import { clearAuth, setAccessToken } from '../../stores/slices/authSlice';
+import { store } from '../../stores/store';
+import { clearAuth, setAccessToken } from '../../stores/slices/authSlice';
 
 let isRefreshing = false;
 const refreshedToken$ = new Subject<string>();
@@ -14,8 +14,7 @@ function waitForNewToken(): Observable<string> {
 }
 
 axiosInstance.interceptors.request.use(config => {
-//   const token = store.getState().auth.accessToken;
-  const token =null;
+  const token = store.getState().auth.accessToken;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -54,13 +53,12 @@ axiosInstance.interceptors.response.use(
         { withCredentials: true }
       );
 
-    //   store.dispatch(setAccessToken(data.accessToken));
+      store.dispatch(setAccessToken(data.accessToken));
       refreshedToken$.next(data.accessToken);
-
       originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
       return axiosInstance(originalRequest);
     } catch (refreshErr) {
-    //   store.dispatch(clearAuth());
+      store.dispatch(clearAuth());
       window.location.href = '/login';
       return Promise.reject(refreshErr);
     } finally {

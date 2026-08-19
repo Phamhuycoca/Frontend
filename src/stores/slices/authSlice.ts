@@ -1,4 +1,6 @@
+// authSlice.ts
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { decodeToken } from '../../utils/helpers/jwt';
 
 interface AuthState {
   accessToken: string | null;
@@ -7,32 +9,23 @@ interface AuthState {
 
 const initialState: AuthState = {
   accessToken: null,
-  userId: null,
+  userId: null
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-
   reducers: {
-    login: (
-      state,
-      action: PayloadAction<{
-        accessToken: string;
-        userId: string;
-      }>
-    ) => {
-      state.accessToken = action.payload.accessToken;
-      state.userId = action.payload.userId;
+    setAccessToken(state, action: PayloadAction<string>) {
+      state.accessToken = action.payload;
+      state.userId = decodeToken(action.payload)?.userId ?? null;
     },
-
-    logout: (state) => {
+    clearAuth(state) {
       state.accessToken = null;
       state.userId = null;
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
-
+export const { setAccessToken, clearAuth } = authSlice.actions;
 export default authSlice.reducer;
