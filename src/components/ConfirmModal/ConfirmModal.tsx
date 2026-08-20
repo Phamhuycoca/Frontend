@@ -34,6 +34,7 @@ const ConfirmModal = () => {
       cancelText={state.options.cancelText ?? 'Hủy'}
       onOk={() => confirmService.confirm()}
       onCancel={() => confirmService.cancel()}
+      maskClosable={false}
     >
       {state.options.content}
     </Modal>
