@@ -1,15 +1,13 @@
 import { Subject, Observable } from 'rxjs';
 
-
 export interface LoadingState {
   loading: boolean;
 }
 
 class LoadingService {
-   private stateSubject = new Subject<LoadingState>();
+  private stateSubject = new Subject<LoadingState>();
 
-  readonly state$: Observable<LoadingState> =
-    this.stateSubject.asObservable();
+  readonly state$: Observable<LoadingState> = this.stateSubject.asObservable();
 
   private loading = false;
 

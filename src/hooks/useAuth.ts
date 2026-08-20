@@ -1,4 +1,4 @@
-import { store } from "../stores/store";
+import { store } from '../stores/store';
 
 export function useAuth() {
   const token = store.getState().auth.accessToken;
@@ -7,5 +7,5 @@ export function useAuth() {
   return {
     isAuthenticated: !!token,
     userId,
-  }
+  };
 }

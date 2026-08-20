@@ -9,7 +9,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   accessToken: null,
-  userId: null
+  userId: null,
 };
 
 const authSlice = createSlice({

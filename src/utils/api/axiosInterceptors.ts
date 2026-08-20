@@ -10,10 +10,13 @@ let isRefreshing = false;
 const refreshedToken$ = new Subject<string>();
 
 function waitForNewToken(): Observable<string> {
-  return refreshedToken$.pipe(filter(t => !!t), take(1));
+  return refreshedToken$.pipe(
+    filter((t) => !!t),
+    take(1)
+  );
 }
 
-axiosInstance.interceptors.request.use(config => {
+axiosInstance.interceptors.request.use((config) => {
   const token = store.getState().auth.accessToken;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -22,8 +25,8 @@ axiosInstance.interceptors.request.use(config => {
 });
 
 axiosInstance.interceptors.response.use(
-  response => response,
-  async error => {
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
 
     if (error.response?.status !== 401 || originalRequest._retry) {
@@ -35,7 +38,7 @@ axiosInstance.interceptors.response.use(
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         waitForNewToken().subscribe({
-          next: newToken => {
+          next: (newToken) => {
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
             resolve(axiosInstance(originalRequest));
           },

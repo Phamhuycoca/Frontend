@@ -1,5 +1,5 @@
 // hooks/useLoading.ts
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 export const useLoading = (initialValue = false) => {
   const [loading, setLoading] = useState(initialValue);

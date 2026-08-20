@@ -39,7 +39,7 @@ export default function Editortiny({
         statusbar: false,
         branding: false,
         height,
-        elementpath: false,  
+        elementpath: false,
         menubar: true,
         plugins: [
           'advlist',

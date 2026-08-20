@@ -1,7 +1,4 @@
-import {
-  configureStore,
-  combineReducers,
-} from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import {
   persistReducer,
@@ -17,13 +14,13 @@ import {
 import storageModule from 'redux-persist/lib/storage';
 
 import authReducer from './slices/authSlice';
-import userReducer from "./slices/userSlice";
+import userReducer from './slices/userSlice';
 const storage =
   (storageModule as unknown as { default?: typeof storageModule }).default ?? storageModule;
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  user:userReducer
+  user: userReducer,
 });
 
 const persistConfig = {
@@ -32,10 +29,7 @@ const persistConfig = {
   whitelist: ['auth'],
 };
 
-const persistedReducer = persistReducer(
-  persistConfig,
-  rootReducer
-);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -43,22 +37,13 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-        ],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });
 
 export const persistor = persistStore(store);
 
-export type RootState =
-  ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch =
-  typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch;

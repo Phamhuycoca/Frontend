@@ -1,18 +1,23 @@
-import { createRoot } from 'react-dom/client'
-import './styles/index.scss'
-import { legacyLogicalPropertiesTransformer, px2remTransformer, StyleProvider } from '@ant-design/cssinjs'
-import { ConfigProvider } from 'antd'
-import { RouterProvider } from 'react-router-dom'
-import { router } from './routers'
-import { Provider } from 'react-redux'
-import { persistor, store } from './stores/store'
+import { createRoot } from 'react-dom/client';
+import {
+  legacyLogicalPropertiesTransformer,
+  px2remTransformer,
+  StyleProvider,
+} from '@ant-design/cssinjs';
+import { ConfigProvider } from 'antd';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routers';
+import { Provider } from 'react-redux';
+import { persistor, store } from './stores/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import ConfirmModal from './components/ConfirmModal/ConfirmModal'
-import { LoadingScreen } from './components/Loading/LoadingScreen'
+import ConfirmModal from './components/ConfirmModal/ConfirmModal';
+import { LoadingScreen } from './components/Loading/LoadingScreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'antd/dist/reset.css';
+import './styles/index.scss';
 const px2rem = px2remTransformer({
   rootValue: 16,
-})
+});
 
 createRoot(document.getElementById('root')!).render(
   <StyleProvider
@@ -36,4 +41,4 @@ createRoot(document.getElementById('root')!).render(
       </Provider>
     </ConfigProvider>
   </StyleProvider>
-)
+);

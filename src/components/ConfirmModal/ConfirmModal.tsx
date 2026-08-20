@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { Subscription } from 'rxjs';
 
-import {
-  confirmService,
-  type ConfirmState
-} from './../../utils/helpers/confirmService';
+import { confirmService, type ConfirmState } from './../../utils/helpers/confirmService';
 
 const ConfirmModal = () => {
   const [state, setState] = useState<ConfirmState>({
@@ -14,12 +11,9 @@ const ConfirmModal = () => {
   });
 
   useEffect(() => {
-    const subscription: Subscription =
-      confirmService.state$.subscribe(
-        newState => {
-          setState(newState);
-        }
-      );
+    const subscription: Subscription = confirmService.state$.subscribe((newState) => {
+      setState(newState);
+    });
 
     return () => {
       subscription.unsubscribe();

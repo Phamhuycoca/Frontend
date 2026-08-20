@@ -16,8 +16,7 @@ export interface ConfirmState {
 class ConfirmService {
   private stateSubject = new Subject<ConfirmState>();
 
-  state$: Observable<ConfirmState> =
-    this.stateSubject.asObservable();
+  state$: Observable<ConfirmState> = this.stateSubject.asObservable();
 
   private currentResult?: Subject<boolean>;
 

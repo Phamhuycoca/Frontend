@@ -1,28 +1,29 @@
 // layouts/MainLayout.tsx
-import { Layout, Menu } from 'antd'
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { Layout } from 'antd';
+import { Outlet } from 'react-router-dom';
+import { MenuDynamic, type MenuItemConfig } from '../../components/Menu/MenuDynamic';
 
-const { Sider, Content } = Layout
+const { Sider, Content } = Layout;
 
 export default function MainLayout() {
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const items = [
-    { key: '/', label: 'Trang chủ' },
-    { key: '/users', label: 'Người dùng' },
-  ]
+  const menuConfig: MenuItemConfig[] = [
+    { key: 'home', label: 'Trang chủ', icon: 'HomeOutlined', path: '/' },
+    {
+      key: 'reports',
+      label: 'Báo cáo',
+      icon: 'FileTextOutlined',
+      children: [
+        { key: 'leadership-schedule', label: 'Lịch BGD', path: '/reports/leadership' },
+        { key: 'financial', label: 'Báo cáo tài chính', path: '/reports/financial' },
+      ],
+    },
+    { key: 'settings', label: 'Cài đặt', icon: 'SettingOutlined', path: '/settings' },
+  ];
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          items={items}
-          onClick={({ key }) => navigate(key)}
-        />
+      <Sider width={240}>
+        <MenuDynamic items={menuConfig} />
       </Sider>
       <Layout>
         <Content style={{ padding: 24 }}>
@@ -30,5 +31,5 @@ export default function MainLayout() {
         </Content>
       </Layout>
     </Layout>
-  )
+  );
 }

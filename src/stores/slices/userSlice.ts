@@ -1,18 +1,18 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { ResponseList } from "../../types/response";
-import type { UserRow } from "../../App";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { ResponseList } from '../../types/response';
+import type { UserRow } from '../../App';
 
 const initialState: ResponseList<UserRow> = {
   data: [],
   page: 1,
   pageSize: 10,
-  sort: "",
-  search: "",
-  total:0
+  sort: '',
+  search: '',
+  total: 0,
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
 
   reducers: {
@@ -31,10 +31,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {
-  setDataSource,
-  setPage,
-  setPageSize,
-} = userSlice.actions;
+export const { setDataSource, setPage, setPageSize } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,1 +1,1 @@
-export {default as Editortiny} from './Editortiny'
+export { default as Editortiny } from './Editortiny';
