@@ -10,6 +10,7 @@ import {
 } from "./stores/slices/userSlice";
 
 import type { RootState, AppDispatch } from "./stores/store";
+import { UploadFile, UploadImage } from "./components/Upload";
 
 export type UserRow = {
   id: number;
@@ -138,6 +139,12 @@ export const App = () => {
         },
       ]}
     />
+    <UploadImage/>
+    <UploadFile
+    accept=".pdf,.doc,.docx,.xlsx"
+    maxSizeMB={20}
+    onUploaded={(res) => console.log(res)}
+/>
     </>
   );
 };
