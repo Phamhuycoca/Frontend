@@ -1,10 +1,11 @@
+import { store } from "../stores/store";
+
 export function useAuth() {
-  const token = localStorage.getItem('token')
-  const userStr = localStorage.getItem('user')
-  const user = userStr ? JSON.parse(userStr) : null
+  const token = store.getState().auth.accessToken;
+  const userId = store.getState().auth.userId;
 
   return {
     isAuthenticated: !!token,
-    user,
+    userId,
   }
 }
