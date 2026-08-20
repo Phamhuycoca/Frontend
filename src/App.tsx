@@ -1,56 +1,90 @@
+import { useEffect } from "react";
 import { TableList } from "./components/TableList";
 import type { TableChangeParams } from "./components/TableList/TableList";
-type UserRow = { id: number; name: string };
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  setDataSource,
+  setPage,
+  setPageSize,
+} from "./stores/slices/userSlice";
+
+import type { RootState, AppDispatch } from "./stores/store";
+import { Editortiny } from "./components/Editortiny";
+
+export type UserRow = {
+  id: number;
+  student_name: string;
+  phone: string;
+  address: string;
+};
+
 export const App = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const {
+    data: dataSource,
+    page,
+    pageSize,
+    total,
+  } = useSelector((state: RootState) => state.user);
+  console.log(dataSource.length,page,pageSize,total);
+  
+  useEffect(() => {
+    const getStudents = async () => {
+      try {
+        const response = await fetch(
+          "https://64f015de8a8b66ecf77923a7.mockapi.io/api/Student"
+        );
+
+        const data: UserRow[] = await response.json();
+
+        dispatch(setDataSource(data));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getStudents();
+  }, [dispatch]);
+
   const handleTableChange = (params: TableChangeParams) => {
-    console.log('params:', params); // { page, pageSize, sortField?, sortOrder? }
-    // gọi API 1 chỗ duy nhất
+    dispatch(setPage(params.page));
+    dispatch(setPageSize(params.pageSize));
   };
 
   return (
     <>
-      <TableList<UserRow>
-        onTableChange={handleTableChange}
-        showSearch={true}
-        dataSource={[
-          { id: 1, name: 'aaa' },
-          { id: 2, name: 'aaaa' },
-        ]}
-        filterFields={[
-          {
-            name: 'status',
-            label: 'Trạng thái',
-            type: 'select',
-            options: [
-              { label: 'Hoạt động', value: 'active' },
-              { label: 'Ngừng hoạt động', value: 'inactive' },
-            ],
-          },
-          {
-            name: 'code',
-            label: 'Mã',
-            type: 'input',
-          },
-          {
-            name: 'dateRange',
-            label: 'Khoảng thời gian',
-            type: 'dateRange',
-            span: 8,
-          },
-        ]}
-        onFilter={(values) => {
-          console.log('filter values:', values);
-          // gọi API fetch lại data theo values
-        }}
-        customPage={true}
-        total={10}
-        page={1}
-        pageSize={1}
-        loading={false}
-        columns={[
-          { title: 'Tên', dataIndex: 'name', key: 'name', sorter: true },
-        ]}
-      />
+    <TableList<UserRow>
+      dataSource={dataSource}
+      total={total}
+      page={page}
+      pageSize={pageSize}
+      customPage={true}
+      loading={false}
+      onTableChange={handleTableChange}
+      columns={[
+        {
+          title: "Tên học sinh",
+          dataIndex: "student_name",
+          key: "student_name",
+          sorter: true,
+        },
+        {
+          title: "Điện thoại",
+          dataIndex: "phone",
+          key: "phone",
+          sorter: true,
+        },
+        {
+          title: "Địa chỉ",
+          dataIndex: "address",
+          key: "address",
+          sorter: true,
+        },
+      ]}
+    />
+    <Editortiny/>
     </>
-  )
+  );
 };

@@ -193,10 +193,14 @@ export const TableList = <T extends object>(props: PropsTableList<T>) => {
                                     </Row>
                                     <Row justify="center">
                                         <Space>
-                                            <Button type="primary" icon={<SearchOutlined />} htmlType="submit">
+                                            <Button type="primary" icon={<SearchOutlined />} htmlType="submit" style={{
+                                                borderRadius:'10px'
+                                            }}>
                                                 Tìm kiếm
                                             </Button>
-                                            <Button icon={<ReloadOutlined />} onClick={handleResetFilter}>
+                                            <Button icon={<ReloadOutlined />} onClick={handleResetFilter} style={{
+                                                borderRadius:'10px'
+                                            }}>
                                                 Làm mới
                                             </Button>
                                         </Space>

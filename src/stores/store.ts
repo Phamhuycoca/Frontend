@@ -17,11 +17,13 @@ import {
 import storageModule from 'redux-persist/lib/storage';
 
 import authReducer from './slices/authSlice';
+import userReducer from "./slices/userSlice";
 const storage =
   (storageModule as unknown as { default?: typeof storageModule }).default ?? storageModule;
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  user:userReducer
 });
 
 const persistConfig = {
