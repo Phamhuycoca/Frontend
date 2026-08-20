@@ -146,7 +146,7 @@ export const UploadFile = ({
 
     return (
         <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Tải file lên</Button>
+            <Button icon={<UploadOutlined />}>Tải tệp đính kèm</Button>
         </Upload>
     );
 };

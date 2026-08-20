@@ -152,7 +152,7 @@ export const UploadImage = ({
 
     return (
         <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Tải ảnh lên</Button>
+            <Button icon={<UploadOutlined />}>Tải ảnh</Button>
         </Upload>
     );
 };
