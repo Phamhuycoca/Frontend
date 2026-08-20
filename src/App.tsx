@@ -6,7 +6,7 @@ import { useLoading } from './hooks/useLoading';
 import { setDataSource, setPage, setPageSize } from './stores/slices/userSlice';
 
 import type { RootState, AppDispatch } from './stores/store';
-import { UploadFile, UploadImage } from './components/Upload';
+import { UploadFile, UploadImage } from '@/components/Upload';
 
 export type UserRow = {
   id: number;
