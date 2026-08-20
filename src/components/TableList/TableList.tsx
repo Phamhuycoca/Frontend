@@ -58,7 +58,7 @@ type PropsTableList<T> = TableProps & {
 export const TableList = <T extends object>(props: PropsTableList<T>) => {
     const [showFilter, setShowFilter] = useState<boolean>(false);
     const [form] = Form.useForm();
-
+    const [showSorterTooltip,setShowSorterTooltip] = useState<string>('nhấp để sắp xếp tăng dần')
     // State để control mũi tên hiển thị trên cột
     const [sortState, setSortState] = useState<{ field?: string; order?: 'ascend' | 'descend' }>({});
     // Ref để dedupe — chặn event "ảo" antd tự phát sinh lại khi prop sortOrder đổi
@@ -208,6 +208,7 @@ export const TableList = <T extends object>(props: PropsTableList<T>) => {
                 )}
 
                 <Table<T>
+                    showSorterTooltip={{title:showSorterTooltip}}
                     rowKey={key ?? 'id'}
                     columns={mappedColumns}
                     dataSource={dataSource}
@@ -221,7 +222,9 @@ export const TableList = <T extends object>(props: PropsTableList<T>) => {
                         const order: 'ascend' | 'descend' =
                             rawOrder === 'ascend' || rawOrder === 'descend' ? rawOrder : 'ascend';
                         const field = rawField ?? lastEmitted.current.field;
-
+                        setShowSorterTooltip(
+                            order === 'ascend' ? 'Nhấp để sắp xếp giảm dần' : 'Nhấp để sắp xếp tăng dần'
+                        );
                         // Dedupe: bỏ qua nếu trùng với lần emit gần nhất
                         // (chặn event "ảo" antd tự phát sinh khi nhận controlled sortOrder mới)
                         if (lastEmitted.current.field === field && lastEmitted.current.order === order) {
