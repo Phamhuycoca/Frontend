@@ -70,7 +70,8 @@ const CustomPagination = ({
                 />
             </div>
 
-            <div>
+            <div style={{
+            }}>
                 {from} - {to} trong số {total}
             </div>
 

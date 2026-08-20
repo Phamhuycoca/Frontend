@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { TableList } from "./components/TableList";
 import type { TableChangeParams } from "./components/TableList/TableList";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useLoading } from "./hooks/useLoading";
 import {
   setDataSource,
   setPage,
@@ -10,7 +10,6 @@ import {
 } from "./stores/slices/userSlice";
 
 import type { RootState, AppDispatch } from "./stores/store";
-import { Editortiny } from "./components/Editortiny";
 
 export type UserRow = {
   id: number;
@@ -21,18 +20,21 @@ export type UserRow = {
 
 export const App = () => {
   const dispatch = useDispatch<AppDispatch>();
-
   const {
     data: dataSource,
     page,
     pageSize,
     total,
   } = useSelector((state: RootState) => state.user);
-  console.log(dataSource.length,page,pageSize,total);
-  
+  const {
+    loading,
+    startLoading,
+    stopLoading,
+  } = useLoading();
   useEffect(() => {
     const getStudents = async () => {
       try {
+        startLoading();
         const response = await fetch(
           "https://64f015de8a8b66ecf77923a7.mockapi.io/api/Student"
         );
@@ -42,11 +44,13 @@ export const App = () => {
         dispatch(setDataSource(data));
       } catch (error) {
         console.error(error);
+      }finally{
+         stopLoading();
       }
     };
 
     getStudents();
-  }, [dispatch]);
+  }, [dispatch,startLoading,stopLoading]);
 
   const handleTableChange = (params: TableChangeParams) => {
     dispatch(setPage(params.page));
@@ -56,12 +60,62 @@ export const App = () => {
   return (
     <>
     <TableList<UserRow>
+      showSearch
+      filterFields={[
+        {
+          name:'student_name',
+          label:'Tên học sinh',
+          type:'input'
+        },
+        {
+          name:'address',
+          label:'Tên học sinh',
+          type:'date',
+          format:'DD/MM/YYYY'
+        },
+        {
+        name: 'donViId',
+        label: 'Đơn vị',
+        type: 'tree-select',
+        span: 6,
+        treeData: [
+            {
+                title: 'Trung ương',
+                value: 'tw',
+                children: [
+                    {
+                        title: 'Đơn vị A',
+                        value: 'a',
+                    },
+                    {
+                        title: 'Đơn vị B',
+                        value: 'b',
+                    },
+                ],
+            },
+            {
+                title: 'Tỉnh Hà Nội',
+                value: 'hn',
+                children: [
+                    {
+                        title: 'Quận Hoàn Kiếm',
+                        value: 'hk',
+                    },
+                    {
+                        title: 'Quận Ba Đình',
+                        value: 'bd',
+                    },
+                ],
+            }
+          ]
+        }
+      ]}
       dataSource={dataSource}
       total={total}
       page={page}
       pageSize={pageSize}
       customPage={true}
-      loading={false}
+      loading={loading}
       onTableChange={handleTableChange}
       columns={[
         {
@@ -84,7 +138,6 @@ export const App = () => {
         },
       ]}
     />
-    <Editortiny/>
     </>
   );
 };

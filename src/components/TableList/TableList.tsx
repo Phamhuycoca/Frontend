@@ -12,6 +12,7 @@ import {
     Table,
     Button,
     type TableProps,
+    TreeSelect,
 } from "antd"
 import viVN from 'antd/locale/vi_VN';
 import { useRef, useState } from "react";
@@ -20,15 +21,22 @@ import type { ColumnsType } from "antd/es/table";
 import CustomPagination from "./CustomPagination";
 const { RangePicker } = DatePicker;
 
-export type FilterFieldType = 'input' | 'select' | 'dateRange';
-
+export type FilterFieldType = 'input' | 'select' | 'dateRange' | 'date' | 'tree-select';
+export type FilterTreeNode = {
+    title: string;
+    value: string | number;
+    key?: string | number;
+    children?: FilterTreeNode[];
+};
 export type FilterField = {
     name: string;
     label: string;
     type: FilterFieldType;
     placeholder?: string;
     options?: { label: string; value: string | number }[];
+    treeData?: FilterTreeNode[];
     span?: number;
+    format?:'DD/MM/YYYY'| 'DD/MM/YY'| 'DD-MM-YYYY'| 'DD-MM-YY';
 };
 
 export type TableChangeParams = {
@@ -102,8 +110,25 @@ export const TableList = <T extends object>(props: PropsTableList<T>) => {
                         style={{ width: '100%' }}
                     />
                 );
+            case 'tree-select':
+                return (
+                    <TreeSelect
+                        placeholder={
+                            field.placeholder ??
+                            `Chọn ${field.label.toLowerCase()}`
+                        }
+                        treeData={field.treeData}
+                        allowClear
+                        showSearch
+                        treeDefaultExpandAll
+                        style={{ width: '100%' }}
+                        treeNodeFilterProp="title"
+                    />
+                );
             case 'dateRange':
                 return <RangePicker style={{ width: '100%' }} placeholder={['Từ ngày', 'Đến ngày']} />;
+            case 'date':
+                return <DatePicker format={field.format} />;
             case 'input':
             default:
                 return <Input placeholder={field.placeholder ?? `Nhập ${field.label.toLowerCase()}`} allowClear />;
