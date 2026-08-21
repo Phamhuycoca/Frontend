@@ -2,10 +2,10 @@ import { store } from '../stores/store';
 
 export function useAuth() {
   const token = store.getState().auth.accessToken;
-  const userId = store.getState().auth.userId;
+  const user = store.getState().auth;
 
   return {
     isAuthenticated: !!token,
-    userId,
+    user,
   };
 }

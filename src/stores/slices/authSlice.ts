@@ -5,11 +5,13 @@ import { decodeToken } from '../../utils/helpers/jwt';
 interface AuthState {
   accessToken: string | null;
   userId: string | null;
+  role: string | null;
 }
 
 const initialState: AuthState = {
   accessToken: null,
   userId: null,
+  role: null
 };
 
 const authSlice = createSlice({

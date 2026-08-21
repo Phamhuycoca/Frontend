@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Menu } from 'antd';
+import { Image, Menu, Row } from 'antd';
 import type { MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Icons from '@ant-design/icons';
+import logo from '@/assets/logo.svg';
 
 export interface MenuItemConfig {
   key: string;
@@ -74,7 +75,7 @@ const findKeyByPath = (items: MenuItemConfig[], pathname: string): string | unde
   return undefined;
 };
 
-export const MenuDynamic = ({ items, mode = 'inline', theme = 'dark' }: MenuDynamicProps) => {
+export const MenuDynamic = ({ items, mode = 'inline', theme = 'light' }: MenuDynamicProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -98,21 +99,26 @@ export const MenuDynamic = ({ items, mode = 'inline', theme = 'dark' }: MenuDyna
   };
 
   return (
-    <Menu
-      mode={mode}
-      theme={theme}
-      items={menuItems}
-      selectedKeys={selectedKey ? [selectedKey] : []}
-      openKeys={openKeys}
-      onOpenChange={setOpenKeys}
-      onClick={onClick}
-      inlineIndent={12}
-      style={{
-        width: '100%',
-        border: 'none',
-        paddingInlineStart: 0,
-      }}
-      inlineCollapsed={false}
-    />
+    <>
+      <Row justify={'center'} className='m-2'>
+        <Image src={logo} preview={false} height={35} />
+      </Row>
+      <Menu
+        mode={mode}
+        theme={theme}
+        items={menuItems}
+        selectedKeys={selectedKey ? [selectedKey] : []}
+        openKeys={openKeys}
+        onOpenChange={setOpenKeys}
+        onClick={onClick}
+        inlineIndent={12}
+        style={{
+          width: '100%',
+          border: 'none',
+          paddingInlineStart: 0,
+        }}
+        inlineCollapsed={false}
+      />
+    </>
   );
 };
