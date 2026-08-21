@@ -1,8 +1,8 @@
 import { Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { loadingService, type LoadingState } from '../../utils/helpers/loadingService';
 import type { Subscription } from 'rxjs';
 import './index.scss';
+import { loadingService, type LoadingState } from '@/utils/helpers/loadingService';
 
 const LOADING_TEXT = 'Đang tải dữ liệu...';
 

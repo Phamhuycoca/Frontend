@@ -10,11 +10,11 @@ import { router } from './routers';
 import { Provider } from 'react-redux';
 import { persistor, store } from './stores/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import ConfirmModal from './components/ConfirmModal/ConfirmModal';
-import { LoadingScreen } from './components/Loading/LoadingScreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'antd/dist/reset.css';
+// import 'antd/dist/reset.css';
 import './styles/index.scss';
+import { ConfirmModal } from './shared/components/ConfirmModal';
+import { LoadingScreen } from './shared/components/Loading';
 const px2rem = px2remTransformer({
   rootValue: 16,
 });

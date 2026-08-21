@@ -4,8 +4,8 @@ import ProtectedRoute from './ProtectedRoute';
 import type { AppRoute } from '../types/router';
 import MainLayout from '../features/layouts/MainLayout';
 import { routes } from './routers';
-import Forbidden from '../pages/Forbidden';
-import NotFound from '../pages/NotFound';
+import Forbidden from '../shared/pages/Forbidden';
+import NotFound from '../shared/pages/NotFound';
 
 function buildRoutes(routeList: AppRoute[]): RouteObject[] {
   return routeList.map((route): RouteObject => {

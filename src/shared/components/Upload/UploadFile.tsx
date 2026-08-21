@@ -15,7 +15,7 @@ interface UploadResponse {
   [key: string]: unknown;
 }
 
-interface UploadImageProps {
+interface UploadFileProps {
   endpoint?: string;
   accept?: string;
   multiple?: boolean;
@@ -25,30 +25,23 @@ interface UploadImageProps {
   onDeleted?: (file: AntUploadFile) => void;
 }
 
-export const UploadImage = ({
+export const UploadFile = ({
   endpoint = 'http://localhost:3000/api/upload',
-  accept = 'image/*',
+  accept,
   multiple = false,
-  maxSizeMB = 5,
+  maxSizeMB = 10,
   defaultFileList = [],
   onUploaded,
   onDeleted,
-}: UploadImageProps) => {
+}: UploadFileProps) => {
   const [fileList, setFileList] = useState<AntUploadFile[]>(defaultFileList);
 
   const beforeUpload = (file: RcFile) => {
-    const isImage = file.type.startsWith('image/');
-    if (!isImage) {
-      message.error('Chỉ được tải lên file ảnh (jpg, png, gif, webp...)');
-      return Upload.LIST_IGNORE;
-    }
-
     const isUnderLimit = file.size / 1024 / 1024 < maxSizeMB;
     if (!isUnderLimit) {
-      message.error(`Ảnh phải nhỏ hơn ${maxSizeMB}MB`);
+      message.error(`File phải nhỏ hơn ${maxSizeMB}MB`);
       return Upload.LIST_IGNORE;
     }
-
     return true;
   };
 
@@ -63,7 +56,7 @@ export const UploadImage = ({
       const blobUrl = URL.createObjectURL(file.originFileObj as RcFile);
       window.open(blobUrl, '_blank', 'noopener,noreferrer');
     } else {
-      message.warning('Chưa có đường dẫn để xem ảnh này');
+      message.warning('Chưa có đường dẫn để xem file này');
     }
   };
 
@@ -112,7 +105,7 @@ export const UploadImage = ({
   const props: UploadProps = {
     name: 'file',
     action: endpoint,
-    listType: 'picture',
+    listType: 'text',
     multiple,
     accept,
     fileList,
@@ -122,7 +115,7 @@ export const UploadImage = ({
     onChange(info) {
       let newFileList = info.fileList;
 
-      // Nếu chỉ cho phép 1 ảnh: luôn chỉ giữ ảnh mới nhất
+      // Nếu chỉ cho phép 1 file: luôn chỉ giữ file mới nhất trong list
       if (!multiple) {
         const latest = newFileList[newFileList.length - 1];
         const oldFile = fileList[0];
@@ -134,8 +127,14 @@ export const UploadImage = ({
         newFileList = latest ? [latest] : [];
       }
 
-      setFileList(newFileList);
       const { status } = info.file;
+
+      // Upload thất bại -> loại file đó khỏi danh sách
+      if (status === 'error') {
+        newFileList = newFileList.filter((f) => f.uid !== info.file.uid);
+      }
+
+      setFileList(newFileList);
 
       if (status === 'done') {
         message.success(`${info.file.name} upload thành công`);
@@ -148,7 +147,7 @@ export const UploadImage = ({
 
   return (
     <Upload {...props}>
-      <Button icon={<UploadOutlined />}>Tải ảnh</Button>
+      <Button icon={<UploadOutlined />}>Tải tệp đính kèm</Button>
     </Upload>
   );
 };

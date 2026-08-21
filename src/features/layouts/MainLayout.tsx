@@ -1,7 +1,8 @@
 // layouts/MainLayout.tsx
+import { MenuDynamic } from '@/shared/components/Menu';
+import type { MenuItemConfig } from '@/shared/components/Menu/MenuDynamic';
 import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';
-import { MenuDynamic, type MenuItemConfig } from '../../components/Menu/MenuDynamic';
 
 const { Sider, Content } = Layout;
 
@@ -22,7 +23,7 @@ export default function MainLayout() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider width={240}>
+      <Sider width={280}>
         <MenuDynamic items={menuConfig} />
       </Sider>
       <Layout>

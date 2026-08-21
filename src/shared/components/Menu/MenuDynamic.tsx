@@ -98,23 +98,21 @@ export const MenuDynamic = ({ items, mode = 'inline', theme = 'dark' }: MenuDyna
   };
 
   return (
-    <div style={{ width: 240, minWidth: 240, padding: 0 }}>
-      <Menu
-        mode={mode}
-        theme={theme}
-        items={menuItems}
-        selectedKeys={selectedKey ? [selectedKey] : []}
-        openKeys={openKeys}
-        onOpenChange={setOpenKeys}
-        onClick={onClick}
-        inlineIndent={12}
-        style={{
-          width: '100%',
-          border: 'none',
-          paddingInlineStart: 0,
-        }}
-        inlineCollapsed={false}
-      />
-    </div>
+    <Menu
+      mode={mode}
+      theme={theme}
+      items={menuItems}
+      selectedKeys={selectedKey ? [selectedKey] : []}
+      openKeys={openKeys}
+      onOpenChange={setOpenKeys}
+      onClick={onClick}
+      inlineIndent={12}
+      style={{
+        width: '100%',
+        border: 'none',
+        paddingInlineStart: 0,
+      }}
+      inlineCollapsed={false}
+    />
   );
 };

@@ -15,7 +15,7 @@ interface UploadResponse {
   [key: string]: unknown;
 }
 
-interface UploadFileProps {
+interface UploadImageProps {
   endpoint?: string;
   accept?: string;
   multiple?: boolean;
@@ -25,23 +25,30 @@ interface UploadFileProps {
   onDeleted?: (file: AntUploadFile) => void;
 }
 
-export const UploadFile = ({
+export const UploadImage = ({
   endpoint = 'http://localhost:3000/api/upload',
-  accept,
+  accept = 'image/*',
   multiple = false,
-  maxSizeMB = 10,
+  maxSizeMB = 5,
   defaultFileList = [],
   onUploaded,
   onDeleted,
-}: UploadFileProps) => {
+}: UploadImageProps) => {
   const [fileList, setFileList] = useState<AntUploadFile[]>(defaultFileList);
 
   const beforeUpload = (file: RcFile) => {
-    const isUnderLimit = file.size / 1024 / 1024 < maxSizeMB;
-    if (!isUnderLimit) {
-      message.error(`File phải nhỏ hơn ${maxSizeMB}MB`);
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+      message.error('Chỉ được tải lên file ảnh (jpg, png, gif, webp...)');
       return Upload.LIST_IGNORE;
     }
+
+    const isUnderLimit = file.size / 1024 / 1024 < maxSizeMB;
+    if (!isUnderLimit) {
+      message.error(`Ảnh phải nhỏ hơn ${maxSizeMB}MB`);
+      return Upload.LIST_IGNORE;
+    }
+
     return true;
   };
 
@@ -56,7 +63,7 @@ export const UploadFile = ({
       const blobUrl = URL.createObjectURL(file.originFileObj as RcFile);
       window.open(blobUrl, '_blank', 'noopener,noreferrer');
     } else {
-      message.warning('Chưa có đường dẫn để xem file này');
+      message.warning('Chưa có đường dẫn để xem ảnh này');
     }
   };
 
@@ -105,7 +112,7 @@ export const UploadFile = ({
   const props: UploadProps = {
     name: 'file',
     action: endpoint,
-    listType: 'text',
+    listType: 'picture',
     multiple,
     accept,
     fileList,
@@ -115,12 +122,11 @@ export const UploadFile = ({
     onChange(info) {
       let newFileList = info.fileList;
 
-      // Nếu chỉ cho phép 1 file: luôn chỉ giữ file mới nhất trong list
+      // Nếu chỉ cho phép 1 ảnh: luôn chỉ giữ ảnh mới nhất
       if (!multiple) {
         const latest = newFileList[newFileList.length - 1];
         const oldFile = fileList[0];
 
-        // Nếu đang thay file mới (upload file khác) trong khi file cũ đã upload xong -> xóa file cũ trên server
         if (oldFile && oldFile.uid !== latest?.uid && oldFile.status === 'done') {
           deleteFileOnServer(oldFile);
         }
@@ -128,9 +134,11 @@ export const UploadFile = ({
         newFileList = latest ? [latest] : [];
       }
 
-      setFileList(newFileList);
       const { status } = info.file;
-
+      if (status === 'error') {
+        newFileList = newFileList.filter((f) => f.uid !== info.file.uid);
+      }
+      setFileList(newFileList);
       if (status === 'done') {
         message.success(`${info.file.name} upload thành công`);
         onUploaded?.(info.file.response as UploadResponse);
@@ -142,7 +150,7 @@ export const UploadFile = ({
 
   return (
     <Upload {...props}>
-      <Button icon={<UploadOutlined />}>Tải tệp đính kèm</Button>
+      <Button icon={<UploadOutlined />}>Tải ảnh</Button>
     </Upload>
   );
 };

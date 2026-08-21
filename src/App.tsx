@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { TableList } from './components/TableList';
-import type { TableChangeParams } from './components/TableList/TableList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoading } from './hooks/useLoading';
 import { setDataSource, setPage, setPageSize } from './stores/slices/userSlice';
 
 import type { RootState, AppDispatch } from './stores/store';
-import { UploadFile, UploadImage } from '@/components/Upload';
+import { TableList, type TableChangeParams } from './shared/components/TableList/TableList';
+import { UploadFile, UploadImage } from './shared/components/Upload';
 
 export type UserRow = {
   id: number;

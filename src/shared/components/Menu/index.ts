@@ -1,0 +1,1 @@
+export { MenuDynamic } from './MenuDynamic';
