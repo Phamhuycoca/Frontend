@@ -23,7 +23,7 @@ export default function MainLayout() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider width={280} theme='light'>
+      <Sider width={280} theme="light">
         <MenuDynamic items={menuConfig} />
       </Sider>
       <Layout>

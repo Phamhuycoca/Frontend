@@ -1,1 +1,1 @@
-export {AgReact} from './AgReact'
+export { AgReact } from './AgReact';

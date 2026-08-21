@@ -100,7 +100,7 @@ export const MenuDynamic = ({ items, mode = 'inline', theme = 'light' }: MenuDyn
 
   return (
     <>
-      <Row justify={'center'} className='m-2'>
+      <Row justify={'center'} className="m-2">
         <Image src={logo} preview={false} height={35} />
       </Row>
       <Menu
