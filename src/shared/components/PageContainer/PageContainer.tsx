@@ -49,7 +49,7 @@ export const PageContainer = ({
   return (
     <div className={className}>
       {hasHeader && (
-        <div style={{ marginBottom: 16 }}>
+        <div style={{ marginBottom: 16, marginTop: 8 }}>
           {breadcrumbItems && breadcrumbItems.length > 0 && (
             <div
               style={{
@@ -94,7 +94,7 @@ export const PageContainer = ({
               }}
             >
               {title && (
-                <Title level={3} style={{ margin: 0 }}>
+                <Title level={4} style={{ margin: 0 }}>
                   {title}
                 </Title>
               )}
