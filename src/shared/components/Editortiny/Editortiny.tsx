@@ -1,5 +1,5 @@
+import { htmlToText } from '@/utils/helpers/funtions';
 import { Editor } from '@tinymce/tinymce-react';
-import { htmlToText } from '../../utils/helpers/funtions';
 
 interface EditortinyProps {
   value?: string;

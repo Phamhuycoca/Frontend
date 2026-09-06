@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { ResponseList } from '../../types/response';
-import type { UserRow } from '../../App';
+import type { UserRow } from '@/AppUser';
 
 const initialState: ResponseList<UserRow> = {
   data: [],
