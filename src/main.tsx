@@ -28,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
     <ConfigProvider
       theme={{
         token: {
+          colorPrimary: '#0ddf30'
           // fontFamily: `'Times New Roman', Times, serif`,
         },
       }}
